@@ -1,7 +1,7 @@
-import { CreateUserDto } from "../dtos/create-user.dto";
 
-export interface User extends CreateUserDto {
+export type UserResponse = {
     id: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
+    email: string;
+    name: string;
+    phoneNumber: string | null;
+};
