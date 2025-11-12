@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/
 import { JwtService } from '@nestjs/jwt';
 import type { CreateUserDto, LoginDto, UpdateUserDto } from '@repo/types';
 import { UserService } from '../user/user.service';
+import { EmailService } from '@repo/email-service';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -9,10 +10,31 @@ export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly emailService: EmailService,
   ) { }
 
   async signin(createUserDto: CreateUserDto) {
-    return this.userService.createUser(createUserDto);
+    const user = await this.userService.createUser(createUserDto);
+    
+    const baseUrl = process.env.FRONTEND_URL || process.env.APP_URL || 'http://localhost:3000';
+    const verificationUrl = `${baseUrl}/verify-email?token=${user.verificationToken}`;
+    
+    try {
+      await this.emailService.sendEmail({
+        to: user.email,
+        subject: 'Verify Your Email Address',
+        template: 'email-verification',
+        context: {
+          name: user.name,
+          verificationUrl,
+        },
+      });
+    } catch (error) {
+      console.error('Failed to send verification email:', error);
+    }
+    
+    const { verificationToken, ...userResponse } = user;
+    return userResponse;
   }
 
   async login(loginDto: LoginDto) {
@@ -28,6 +50,12 @@ export class AuthService {
       if (!isPasswordValid) {
         throw new UnauthorizedException('Invalid Credentials.');
       }
+
+      // Check if user is verified
+      if (!user.verified) {
+        throw new UnauthorizedException('Please verify your email address before logging in.');
+      }
+
       console.log('jwt_secret', process.env.JWT_SECRET);
 
       const payload = { sub: user.id, email: user.email };
@@ -56,5 +84,9 @@ export class AuthService {
 
   async deleteUser(id: string){
     return this.userService.deleteUser(id);
+  }
+
+  async verifyEmail(token: string) {
+    return this.userService.verifyUser(token);
   }
 }

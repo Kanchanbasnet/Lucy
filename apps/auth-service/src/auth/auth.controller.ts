@@ -26,5 +26,10 @@ export class AuthController {
   async deleteUser(@Payload() id: string) {
     return this.authService.deleteUser(id);
   }
+
+  @MessagePattern('verify_email')
+  async verifyEmail(@Payload() token: string) {
+    return this.authService.verifyEmail(token);
+  }
 }
 

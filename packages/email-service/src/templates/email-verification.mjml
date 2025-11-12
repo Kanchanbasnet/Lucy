@@ -1,0 +1,27 @@
+<mjml>
+  <mj-head>
+    <mj-title>Verify Your Email</mj-title>
+    <mj-preview>Please verify your email address</mj-preview>
+  </mj-head>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="24px" color="#333333">
+          Verify Your Email Address
+        </mj-text>
+        <mj-text font-size="16px" color="#666666">
+          Hi {{name}},
+        </mj-text>
+        <mj-text font-size="16px" color="#666666">
+          Please verify your email address by clicking the button below.
+        </mj-text>
+        <mj-button href="{{verificationUrl}}" background-color="#28a745" color="white">
+          Verify Email
+        </mj-button>
+        <mj-text font-size="14px" color="#999999">
+          If you didn't create an account, please ignore this email.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

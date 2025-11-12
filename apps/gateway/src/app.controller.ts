@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 import type { CreateUserDto, LoginDto, UpdateUserDto } from '@repo/types';
 
@@ -39,6 +39,9 @@ export class AppController {
     return this.appService.deleteUser(id);
   }
 
-
+  @Get('auth/verify-email')
+  async verifyEmail(@Query('token') token: string) {
+    return this.appService.verifyEmail(token);
+  }
 
 }

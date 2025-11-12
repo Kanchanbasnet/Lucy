@@ -17,4 +17,8 @@ model User {
   password String
   name String
   phoneNumber String?
+  verified Boolean @default(false)
+  verificationToken String?
+  verificationTokenExpiry DateTime?
+
 }

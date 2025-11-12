@@ -3,5 +3,7 @@ export interface CreateUserDto {
     password: string;
     name: string;
     phoneNumber?: string;
+    verificationToken?: string,
+    verificationTokenExpiry?: Date
     
 }

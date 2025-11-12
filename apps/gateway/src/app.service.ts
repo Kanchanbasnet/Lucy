@@ -48,4 +48,11 @@ export class AppService {
     )
     return response;
   }
+
+  async verifyEmail(token: string) {
+    const response = await firstValueFrom(
+      this.authClient.send('verify_email', token)
+    );
+    return response;
+  }
 }
