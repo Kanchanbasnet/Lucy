@@ -5,13 +5,18 @@ import { AuthService } from './auth.service';
 import { UserModule } from '../user/user.module';
 import { EmailService } from '@repo/email-service';
 import type { EmailConfig } from '@repo/types';
+import { ConfigService } from '@repo/config';
 
 @Module({
   imports: [
     UserModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET || 'default-secret',
-      signOptions: { expiresIn: '1d' },
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET') || 'default-secret',
+        signOptions: { expiresIn: '1d' },
+
+      })
     }),
   ],
   controllers: [AuthController],
@@ -19,14 +24,16 @@ import type { EmailConfig } from '@repo/types';
     AuthService,
     {
       provide: EmailService,
-      useFactory: () => {
+      inject: [ConfigService], 
+      useFactory: (configService: ConfigService) => {
         const emailConfig: EmailConfig = {
-          host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-          port: parseInt(process.env.EMAIL_PORT || '587'),
-          secure: process.env.EMAIL_SECURE === 'true',
+          service: configService.get<string>('EMAIL_SERVICE') || 'gmail',
+          host: configService.get<string>('EMAIL_SMTP_HOST') || 'smtp.gmail.com',
+          port: parseInt(configService.get<string>('EMAIL_SMTP_PORT') || '587'),
+          secure: true,
           auth: {
-            user: process.env.EMAIL_USER || '',
-            pass: process.env.EMAIL_PASSWORD || '',
+            user: configService.get<string>('EMAIL_SMTP_USER') || '',
+            pass: configService.get<string>('EMAIL_SMTP_PASS') || '',
           },
         };
         return new EmailService(emailConfig);
@@ -35,5 +42,5 @@ import type { EmailConfig } from '@repo/types';
   ],
   exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule { }
 

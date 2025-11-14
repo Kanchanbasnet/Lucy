@@ -104,9 +104,34 @@ exports.Prisma.UserScalarFieldEnum = {
   verificationTokenExpiry: 'verificationTokenExpiry'
 };
 
+exports.Prisma.ConversationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  isArchive: 'isArchive',
+  archiveDate: 'archiveDate'
+};
+
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  role: 'role',
+  content: 'content',
+  tokens: 'tokens',
+  model: 'model',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -119,9 +144,20 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+exports.MessageRole = exports.$Enums.MessageRole = {
+  USER: 'USER',
+  BOT: 'BOT'
+};
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Conversation: 'Conversation',
+  Message: 'Message'
 };
 /**
  * Create the Client
@@ -170,13 +206,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                      String    @id @default(uuid())\n  email                   String    @unique\n  password                String\n  name                    String\n  phoneNumber             String?\n  verified                Boolean   @default(false)\n  verificationToken       String?\n  verificationTokenExpiry DateTime?\n}\n",
-  "inlineSchemaHash": "1c057d61628a3a9f597206916747d4e582ffa5ae8b8a491a65e7e58f837813da",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                      String    @id @default(uuid())\n  email                   String    @unique\n  password                String\n  name                    String\n  phoneNumber             String?\n  verified                Boolean   @default(false)\n  verificationToken       String?\n  verificationTokenExpiry DateTime?\n\n  conversations Conversation[]\n}\n\nmodel Conversation {\n  id          String    @id @default(uuid())\n  userId      String\n  createdAt   DateTime  @default(now())\n  updatedAt   DateTime  @updatedAt\n  isArchive   Boolean   @default(false)\n  archiveDate DateTime?\n\n  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)\n  messages Message[]\n\n  @@index([userId])\n}\n\nenum MessageRole {\n  USER\n  BOT\n}\n\nmodel Message {\n  id             String      @id @default(uuid())\n  conversationId String\n  role           MessageRole\n  content        String\n  tokens         Int?\n  model          String?\n  metadata       Json?\n  createdAt      DateTime    @default(now())\n\n  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)\n\n  @@index([conversationId])\n  @@index([createdAt])\n}\n",
+  "inlineSchemaHash": "5fe9c56f020de007d39c7db246bc693b9e21a6bcbbd5c2ce1461f01b0250db7f",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phoneNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"verified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"verificationToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"verificationTokenExpiry\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phoneNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"verified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"verificationToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"verificationTokenExpiry\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"conversations\",\"kind\":\"object\",\"type\":\"Conversation\",\"relationName\":\"ConversationToUser\"}],\"dbName\":null},\"Conversation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isArchive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"archiveDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ConversationToUser\"},{\"name\":\"messages\",\"kind\":\"object\",\"type\":\"Message\",\"relationName\":\"ConversationToMessage\"}],\"dbName\":null},\"Message\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"conversationId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"MessageRole\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tokens\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"model\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"conversation\",\"kind\":\"object\",\"type\":\"Conversation\",\"relationName\":\"ConversationToMessage\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

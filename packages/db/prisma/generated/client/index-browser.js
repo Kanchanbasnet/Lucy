@@ -132,9 +132,34 @@ exports.Prisma.UserScalarFieldEnum = {
   verificationTokenExpiry: 'verificationTokenExpiry'
 };
 
+exports.Prisma.ConversationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  isArchive: 'isArchive',
+  archiveDate: 'archiveDate'
+};
+
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  role: 'role',
+  content: 'content',
+  tokens: 'tokens',
+  model: 'model',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -147,9 +172,20 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+exports.MessageRole = exports.$Enums.MessageRole = {
+  USER: 'USER',
+  BOT: 'BOT'
+};
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Conversation: 'Conversation',
+  Message: 'Message'
 };
 
 /**

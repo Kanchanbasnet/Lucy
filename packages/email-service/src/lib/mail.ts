@@ -4,11 +4,11 @@ import { compileEmailTemplate } from './templates';
 
 export class EmailService {
     private transporter: nodemailer.Transporter;
-    private from: string;
 
 
     constructor(config: EmailConfig) {
         this.transporter = nodemailer.createTransport({
+            service: config.service,
             host: config.host,
             port: config.port,
             secure: config.secure,
@@ -35,7 +35,7 @@ export class EmailService {
                 throw new Error('Either template, html, or text must be provided');
             }
             const info = await this.transporter.sendMail({
-                from: from || this.from,
+                from: from,
                 to: to,
                 subject: subject,
                 html: emailHtml,

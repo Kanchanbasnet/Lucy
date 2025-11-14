@@ -2,6 +2,8 @@ import { Module } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import {AppController} from './app.controller'
 import { AppService } from "./app.service";
+import { HttpModule } from "@nestjs/axios";
+import { ChatModule } from './chat/chat.module';
 
 
 @Module({
@@ -14,8 +16,13 @@ import { AppService } from "./app.service";
                     host: 'localhost',
                     port: 4001
                 }
-            }
-        ])
+            }, 
+        ]),
+        HttpModule.register({
+            timeout: 5000,
+            maxRedirects: 5
+        }),
+        ChatModule
     ],
     controllers: [AppController],
     providers: [AppService]

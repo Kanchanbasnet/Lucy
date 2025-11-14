@@ -9,7 +9,8 @@
     "prisma:generate": "dotenv -e .env -- prisma generate",
     "prisma:migrate": "dotenv -e .env -- prisma migrate dev",
     "prisma:migrate:deploy": "dotenv -e .env -- prisma migrate deploy",
-    "prisma:studio": "dotenv -e .env -- prisma studio"
+    "prisma:studio": "dotenv -e .env -- prisma studio",
+    "prisma:reset": "dotenv -e .env -- prisma migrate reset"
   },
   "exports": {
     ".": {

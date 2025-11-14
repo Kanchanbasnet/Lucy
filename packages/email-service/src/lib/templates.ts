@@ -7,7 +7,9 @@ import mjml2html from 'mjml';
 
 export function compileEmailTemplate(fileName: string, context: Record<string, any> = {}): Promise<string> {
     try {
-        const templateDir = path.join(__dirname, '../templates');
+    
+        const packageRoot = path.resolve(__dirname, '../../');
+        const templateDir = path.join(packageRoot, 'src/templates');
         const templatePath = path.join(templateDir, `${fileName}.mjml`);
 
         if (!fs.existsSync(templatePath)) {

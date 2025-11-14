@@ -4,6 +4,7 @@ import type { CreateUserDto, LoginDto, UpdateUserDto } from '@repo/types';
 import { UserService } from '../user/user.service';
 import { EmailService } from '@repo/email-service';
 import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@repo/config';
 
 @Injectable()
 export class AuthService {
@@ -11,12 +12,15 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     private readonly emailService: EmailService,
+    private readonly configService: ConfigService
   ) { }
 
   async signin(createUserDto: CreateUserDto) {
     const user = await this.userService.createUser(createUserDto);
     
-    const baseUrl = process.env.FRONTEND_URL || process.env.APP_URL || 'http://localhost:3000';
+    const baseUrl = this.configService.get<string>('APP_URL') || 'http://localhost:3000';
+
+    console.log('baseUrl:::::', baseUrl)
     const verificationUrl = `${baseUrl}/verify-email?token=${user.verificationToken}`;
     
     try {

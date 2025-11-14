@@ -9,6 +9,7 @@ export type SendEmailOptions = {
 
 }
 export type EmailConfig = {
+    service: string;
     host: string;
     port: number;
     secure: boolean;

@@ -1,0 +1,29 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: #0d0d0d;       
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+  }
+  
+  .sheet {
+    width: 360px;
+    background: #1d1d1f;
+    border-radius: 20px;
+    padding: 32px 28px 36px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    position: relative;
+  }
+  
+  .close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    border: none;
+    background: transparent;
+    color: #888;
+    font-size: 22px;
+    cursor: pointer;
+  }
