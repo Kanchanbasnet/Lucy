@@ -1,0 +1,253 @@
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  background: #171717;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.sidebarContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 8px;
+  overflow-y: auto;
+}
+
+.header {
+  padding: 12px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 8px;
+}
+
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.logoSection:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.logoIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.logoText {
+  font-size: 16px;
+  font-weight: 500;
+  color: #f5f5f5;
+  flex: 1;
+}
+
+.chevron {
+  color: #b0b0b0;
+}
+
+.navSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 0;
+  margin-bottom: 8px;
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: #f5f5f5;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  text-align: left;
+}
+
+.navButton:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.navButton svg {
+  color: #b0b0b0;
+  flex-shrink: 0;
+}
+
+.chatsSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.sectionTitle {
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #9f9f9f;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chatsList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.chatsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chatsList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chatsList::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.chatsList::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.sidebarContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebarContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebarContent::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.sidebarContent::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.chatItem {
+  padding: 10px 12px;
+  color: #f5f5f5;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin: 2px 4px;
+  transition: background 0.2s ease;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chatItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.emptyState {
+  padding: 20px 12px;
+  color: #9f9f9f;
+  font-size: 14px;
+  text-align: center;
+}
+
+.userSection {
+  padding: 12px 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.userAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #4a9eff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.userDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.userName {
+  font-size: 14px;
+  color: #f5f5f5;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.userStatus {
+  font-size: 12px;
+  color: #9f9f9f;
+  margin-top: 2px;
+}
+
+.upgradeButton {
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #f5f5f5;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-bottom: 8px;
+}
+
+.upgradeButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.logoutButton {
+  width: 100%;
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #f5f5f5;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.logoutButton:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+

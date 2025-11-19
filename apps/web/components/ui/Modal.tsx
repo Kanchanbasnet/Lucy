@@ -14,14 +14,12 @@ export function Modal({ open, onClose, closeOnOverlay = true, children }: ModalP
   if (!open) return null;
 
   const handleOverlayClick = (e: React.MouseEvent) => {
-    // Only close if overlay is clicked and closeOnOverlay is true
     if (closeOnOverlay) {
       onClose();
     }
   };
 
   const handleModalContentClick = (e: React.MouseEvent) => {
-    // Prevent the event from propagating to the overlay click handler
     e.stopPropagation();
   };
 

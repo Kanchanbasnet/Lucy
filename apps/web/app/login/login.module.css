@@ -33,6 +33,11 @@
     gap: 12px;
     margin-top: 12px;
   }
+  .icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+  }
   
   .oauth {
     border: 1px solid rgba(255,255,255,0.15);

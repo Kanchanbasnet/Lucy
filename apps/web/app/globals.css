@@ -22,3 +22,57 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+/* Hide Next.js development indicator */
+#__next-build-watcher,
+[data-nextjs-toast],
+[data-nextjs-dialog],
+#__next-build-watcher *,
+[data-nextjs-toast] *,
+[data-nextjs-dialog] * {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Hide any Next.js dev overlay elements */
+body > div[style*="position: fixed"][style*="bottom"],
+body > div[style*="position:fixed"][style*="bottom"],
+body > div[style*="position: fixed"][style*="bottom-left"],
+body > div[style*="position:fixed"][style*="bottom-left"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Hide any element with "N" text in bottom-left corner */
+body > div[style*="left: 0"][style*="bottom: 0"],
+body > div[style*="left:0"][style*="bottom:0"],
+body > div[style*="left: 0"][style*="bottom: 0"],
+body > div[style*="left:0"][style*="bottom:0"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Hide Next.js dev indicator specifically */
+[data-nextjs-dialog-overlay],
+[data-nextjs-dialog-overlay] *,
+div[style*="z-index: 2147483647"],
+div[style*="z-index:2147483647"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide Next.js dev indicator - small circular icon with "N" */
+body > div[style*="position: fixed"][style*="left: 0"][style*="bottom: 0"],
+body > div[style*="position:fixed"][style*="left:0"][style*="bottom:0"],
+body > div[style*="position: fixed"][style*="left:0"][style*="bottom:0"],
+body > div[style*="position:fixed"][style*="left: 0"][style*="bottom: 0"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
