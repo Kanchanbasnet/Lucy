@@ -11,7 +11,7 @@
 .heroLogo {
   opacity: 0;
   animation: fadeUp 0.9s ease forwards;
-  animation-delay: 0.1s; /* shows before tagline/text */
+  animation-delay: 0.1s; 
 }
 
 .heroLogo img {
@@ -272,7 +272,6 @@
   opacity: 0.9;
 }
 
-/* Heights: medium-short, medium, tall, medium-short */
 .voiceIcon span:nth-child(1) { height: 8px; }
 .voiceIcon span:nth-child(2) { height: 12px; }
 .voiceIcon span:nth-child(3) { height: 16px; }
@@ -294,7 +293,6 @@
   color: #f5f5f5;
 }
 
-/* Authenticated layout with sidebar */
 .heroWithSidebar {
   min-height: 100vh;
   display: flex;

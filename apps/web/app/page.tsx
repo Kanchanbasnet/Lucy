@@ -4,7 +4,7 @@
 import styles from './page.module.css';
 import { Modal } from '../components/ui/Modal';
 import { useState, useRef, useEffect } from 'react';
-import LoginPage from './login/page';
+import { LoginForm } from './login/LoginForm';
 import { Send, Paperclip, Image as ImageIcon } from 'lucide-react';
 import { useAuth } from '../lib/hooks/useAuth';
 
@@ -16,14 +16,12 @@ export default function Home() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const plusButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Close modal when user becomes authenticated
   useEffect(() => {
     if (isAuthenticated && authOpen) {
       setAuthOpen(false);
     }
   }, [isAuthenticated, authOpen]);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -55,7 +53,6 @@ export default function Home() {
 
   const handleVoiceClick = () => {
     requireAuth(() => {
-      // TODO: Implement voice functionality
       console.log('Voice mode activated');
     });
   };
@@ -64,7 +61,6 @@ export default function Home() {
     requireAuth(() => {
       const message = inputRef.current?.value;
       if (message?.trim()) {
-        // TODO: Implement send message functionality
         console.log('Sending message:', message);
         if (inputRef.current) {
           inputRef.current.value = '';
@@ -85,7 +81,6 @@ export default function Home() {
 
   const handleAddPhotos = () => {
     requireAuth(() => {
-      // TODO: Implement add photos functionality
       console.log('Add photos');
       setDropdownOpen(false);
     });
@@ -93,7 +88,6 @@ export default function Home() {
 
   const handleAddFiles = () => {
     requireAuth(() => {
-      // TODO: Implement add files functionality
       console.log('Add files');
       setDropdownOpen(false);
     });
@@ -178,7 +172,7 @@ export default function Home() {
       </div>
     </main>
     <Modal open={authOpen} onClose={() => setAuthOpen(false)} closeOnOverlay={false}>
-     <LoginPage />
+     <LoginForm onSuccess={() => setAuthOpen(false)} />
    </Modal>
     </>
   

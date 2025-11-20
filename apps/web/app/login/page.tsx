@@ -1,72 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './login.module.css';
-import { useAuth } from '../../lib/hooks/useAuth';
+import modalStyles from '../../components/ui/Modal.module.css';
+import { LoginForm } from './LoginForm';
 
 export default function LoginPage() {
-  const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const router = useRouter();
 
-  const handleLogin = () => {
-    // TODO: Replace with actual API call to authenticate
-    // For now, mock login - set a token if email and password are provided
-    if (email && password) {
-      // Mock token - in production, this would come from the API response
-      const mockToken = 'mock_auth_token_' + Date.now();
-      login(mockToken);
-    }
-  };
-
-  const handleOAuthLogin = (provider: string) => {
-    // TODO: Implement OAuth login
-    console.log(`Login with ${provider}`);
-    // For now, mock login
-    const mockToken = 'mock_oauth_token_' + Date.now();
-    login(mockToken);
+  const handleClose = () => {
+    router.push('/');
   };
 
   return (
-    <div className={styles.card}>
-      <h2>Log in or sign up</h2>
-
-      <input 
-        className={styles.textInput} 
-        type="email" 
-        placeholder="Email address"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input 
-        className={styles.textInput} 
-        type="password" 
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            handleLogin();
-          }
-        }}
-      />
-      <button className={styles.primary} onClick={handleLogin}>Continue</button>
-
-      <div className={styles.divider}>
-        <span></span>
-        <p>OR</p>
-        <span></span>
-      </div>
-
-      <div className={styles.buttons}>
-        <button className={styles.oauth} onClick={() => handleOAuthLogin('google')}>
-          <img src="/google.png" alt="Google" className={styles.icon} />
-          Continue with Google
+    <div className={styles.screen}>
+      <div className={modalStyles.sheet}>
+        <button className={modalStyles.close} onClick={handleClose}>
+          ×
         </button>
-
-        <button className={styles.oauth} onClick={() => handleOAuthLogin('phone')}>
-          <span>📞</span> Continue with phone
-        </button>
+        <LoginForm />
       </div>
     </div>
   );
