@@ -5,13 +5,15 @@ import styles from './page.module.css';
 import { Modal } from '../components/ui/Modal';
 import { useState, useRef, useEffect } from 'react';
 import { LoginForm } from './login/LoginForm';
-import { Send, Paperclip, Image as ImageIcon } from 'lucide-react';
+import { Send, Paperclip, Image as ImageIcon, PanelLeft } from 'lucide-react';
 import { useAuth } from '../lib/hooks/useAuth';
+import { Sidebar } from '../components/Sidebar';
 
 export default function Home() {
   const [authOpen, setAuthOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const { isAuthenticated, user } = useAuth();
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const plusButtonRef = useRef<HTMLButtonElement>(null);
@@ -93,89 +95,125 @@ export default function Home() {
     });
   };
 
+  const firstName = user?.name?.split(' ')?.[0] || 'there';
+
   return (
     <>
-      <main className={styles.hero}>
-      <div className={styles.nav}>
-        <div className={styles.logo}>
-        <img src="/lucy-logo.png" alt="Lucy mark" />
-          <span>Lucy</span>
-        </div>
-        <div className={styles.navLinks}>
+      {isAuthenticated && sidebarOpen && (
+        <Sidebar onClose={() => setSidebarOpen(false)} />
+      )}
 
-          <button className={styles.signInButton} onClick={() => setAuthOpen(true)}>Sign in</button>
-        </div>
-      </div>
-
-      <div className={styles.centerContent}>
-      <div className={styles.heroLogo}>
-    <img src="/lucy-logo.png" alt="Lucy mark" />
-  </div>
-        <h1>Meet Lucy,</h1>
-        <h1>Your AI assistant</h1>
-      </div>
-
-      <div className={styles.promptBar}>
-        <div className={styles.plusContainer}>
-          <button 
-            ref={plusButtonRef}
-            className={styles.plus} 
-            onClick={handlePlusClick}
-            aria-label="Add attachments"
-          >
-            +
-          </button>
-          {dropdownOpen && (
-            <div ref={dropdownRef} className={styles.dropdown}>
-              <button 
-                className={styles.dropdownItem}
-                onClick={handleAddPhotos}
+      <main
+        className={
+          isAuthenticated && sidebarOpen ? styles.heroWithSidebar : styles.hero
+        }
+      >
+        <div className={styles.nav}>
+          <div className={styles.logo}>
+            {isAuthenticated && !sidebarOpen && (
+              <button
+                className={styles.sidebarToggle}
+                onClick={() => setSidebarOpen(true)}
+                aria-label="Open sidebar"
               >
-                <ImageIcon size={18} />
-                <span>Add photos</span>
+                <PanelLeft size={18} />
               </button>
-              <button 
-                className={styles.dropdownItem}
-                onClick={handleAddFiles}
+            )}
+            <img src="/lucy-logo.png" alt="Lucy mark" />
+            <span>Lucy</span>
+          </div>
+          <div className={styles.navLinks}>
+            {!isAuthenticated ? (
+              <button
+                className={styles.signInButton}
+                onClick={() => setAuthOpen(true)}
               >
-                <Paperclip size={18} />
-                <span>Add files</span>
+                Sign in
               </button>
+            ) : null}
+          </div>
+        </div>
+
+        <div className={isAuthenticated ? styles.mainContent : styles.centerContent}>
+          {isAuthenticated ? (
+            <div className={styles.chatArea}>
+              <div className={styles.welcomeMessage}>
+                <h2>Hello, {firstName}.</h2>
+                <p>How can I help you today?</p>
+              </div>
+            </div>
+          ) : (
+            <div className={styles.centerContent}>
+              <div className={styles.heroLogo}>
+                <img src="/lucy-logo.png" alt="Lucy mark" />
+              </div>
+              <h1>Meet Lucy,</h1>
+              <h1>Your AI assistant</h1>
             </div>
           )}
+
+          <div className={styles.promptBar}>
+            <div className={styles.plusContainer}>
+              <button
+                ref={plusButtonRef}
+                className={styles.plus}
+                onClick={handlePlusClick}
+                aria-label="Add attachments"
+              >
+                +
+              </button>
+              {dropdownOpen && (
+                <div ref={dropdownRef} className={styles.dropdown}>
+                  <button
+                    className={styles.dropdownItem}
+                    onClick={handleAddPhotos}
+                  >
+                    <ImageIcon size={18} />
+                    <span>Add photos</span>
+                  </button>
+                  <button
+                    className={styles.dropdownItem}
+                    onClick={handleAddFiles}
+                  >
+                    <Paperclip size={18} />
+                    <span>Add files</span>
+                  </button>
+                </div>
+              )}
+            </div>
+            <input
+              ref={inputRef}
+              placeholder="Ask Lucy anything..."
+              onKeyDown={handleInputKeyDown}
+            />
+            <div className={styles.actions}>
+              <button className={styles.voiceButton} onClick={handleVoiceClick}>
+                <span className={styles.voiceIcon}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+              </button>
+              <button
+                className={styles.sendButton}
+                onClick={handleSendClick}
+                aria-label="Send message"
+              >
+                <Send size={16} />
+              </button>
+            </div>
+          </div>
         </div>
-        <input 
-          ref={inputRef}
-          placeholder="Ask Lucy anything..." 
-          onKeyDown={handleInputKeyDown}
-        />
-        <div className={styles.actions}>
-  <button className={styles.voiceButton} onClick={handleVoiceClick}>
-    <span className={styles.voiceIcon}>
-      
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </span>
+      </main>
 
-  </button>
-  <button 
-    className={styles.sendButton} 
-    onClick={handleSendClick}
-    aria-label="Send message"
-  >
-    <Send size={16}/>
-  </button>
-</div>
-
-      </div>
-    </main>
-    <Modal open={authOpen} onClose={() => setAuthOpen(false)} closeOnOverlay={false}>
-     <LoginForm onSuccess={() => setAuthOpen(false)} />
-   </Modal>
+      <Modal
+        open={authOpen}
+        onClose={() => setAuthOpen(false)}
+        closeOnOverlay={false}
+      >
+        <LoginForm onSuccess={() => setAuthOpen(false)} />
+      </Modal>
     </>
-  
-    
   );
 }

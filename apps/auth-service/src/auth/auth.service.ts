@@ -18,7 +18,7 @@ export class AuthService {
   async signin(createUserDto: CreateUserDto) {
     const user = await this.userService.createUser(createUserDto);
     
-    const baseUrl = this.configService.get<string>('APP_URL') || 'http://localhost:3000';
+    const baseUrl = this.configService.get<string>('FRONTEND_URL') || 'http://localhost:3000';
 
     console.log('baseUrl:::::', baseUrl)
     const verificationUrl = `${baseUrl}/verify-email?token=${user.verificationToken}`;

@@ -2,21 +2,44 @@
 
 import { useState } from 'react';
 import styles from './Sidebar.module.css';
-import { Pencil, Search, Book, Folder, ChevronDown } from 'lucide-react';
+import { Pencil, Search, User, Settings, ChevronLeft, PanelLeft } from 'lucide-react';
 import { useAuth } from '../lib/hooks/useAuth';
 
-export function Sidebar() {
-  const [chats] = useState<string[]>([]); // TODO: Load from API
-  const { logout } = useAuth();
+interface SidebarProps {
+  onClose?: () => void;
+}
+
+export function Sidebar({ onClose }: SidebarProps) {
+  const [chats] = useState<string[]>([]); 
+  const { user, logout } = useAuth();
+
+  const initials = user?.name
+    ? user.name
+        .split(' ')
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) => part[0]?.toUpperCase())
+        .join('')
+    : 'U';
 
   return (
     <aside className={styles.sidebar}>
       <div className={styles.sidebarContent}>
         <div className={styles.header}>
-          <div className={styles.logoSection}>
-            <img src="/lucy-logo.png" alt="Lucy" className={styles.logoIcon} />
-            <span className={styles.logoText}>Lucy</span>
-            <ChevronDown size={16} className={styles.chevron} />
+          <div className={styles.logoRow}>
+            <div className={styles.logoSection}>
+              <img src="/lucy-logo.png" alt="Lucy" className={styles.logoIcon} />
+            </div>
+            {onClose && (
+              <button
+                type="button"
+                className={styles.closeButton}
+                onClick={onClose}
+                aria-label="Close sidebar"
+              >
+                <ChevronLeft size={16} />
+              </button>
+            )}
           </div>
         </div>
 
@@ -29,21 +52,13 @@ export function Sidebar() {
             <Search size={18} />
             <span>Search chats</span>
           </button>
-          <button className={styles.navButton}>
-            <Book size={18} />
-            <span>Library</span>
-          </button>
-          <button className={styles.navButton}>
-            <Folder size={18} />
-            <span>Projects</span>
-          </button>
         </div>
 
         <div className={styles.chatsSection}>
-          <div className={styles.sectionTitle}>Chats</div>
+          <div className={styles.sectionTitle}>History</div>
           <div className={styles.chatsList}>
             {chats.length === 0 ? (
-              <div className={styles.emptyState}>No chats yet</div>
+              <div className={styles.emptyState}>No history found</div>
             ) : (
               chats.map((chat, index) => (
                 <div key={index} className={styles.chatItem}>
@@ -56,13 +71,20 @@ export function Sidebar() {
 
         <div className={styles.userSection}>
           <div className={styles.userInfo}>
-            <div className={styles.userAvatar}>KB</div>
+            <div className={styles.userAvatar}>{initials}</div>
             <div className={styles.userDetails}>
-              <div className={styles.userName}>kanchan Bas...</div>
-              <div className={styles.userStatus}>Free</div>
+              <div className={styles.userName}>{user?.name || 'User'}</div>
+              <div className={styles.userStatus}>{user?.email}</div>
             </div>
           </div>
-          <button className={styles.upgradeButton}>Upgrade</button>
+          <button className={styles.navButton}>
+            <User size={18} />
+            <span>Profile</span>
+          </button>
+          <button className={styles.navButton}>
+            <Settings size={18} />
+            <span>Settings</span>
+          </button>
           <button className={styles.logoutButton} onClick={logout}>
             Logout
           </button>
